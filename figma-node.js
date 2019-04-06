@@ -10,6 +10,7 @@ const readline = require('readline').createInterface({
 
 require('dotenv').config();
 
+// Start server
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
@@ -20,15 +21,16 @@ server.listen(port, hostname, () => {
   console.log('FigmaJSONtoSCSS Initialized');
 });
 
+// Figma-js client
 const client = Figma.Client({
   personalAccessToken: process.env.TOKEN
 });
 
-
-
+// AJAX in Figma API data
 client.file(process.env.TEST_FIGMA).then(({ data }) => {
   let figmaData = data.document.children[0].children[0].children;
 
+  // Convert RGB values to hex value
   const rgbToHex = (rgb) => {
     let hex = (rgb * 255).toString(16);
     if (hex.length < 2) {
@@ -38,6 +40,7 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
     }
   };
 
+  // Store values from API to figmaObj object
   const styleElement = (htmlTag, element, hexTextColor) => {
     figmaObj[htmlTag].color = hexTextColor;
     figmaObj[htmlTag].fontSize = `${element.style.fontSize}px`;
@@ -64,52 +67,44 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
     let hexTextColor;
     let hexColor;
 
+    // Combine seperate r, g, b key value pairs into a single hex value
     if (element.fills !== undefined) {
       hexTextColor =  `#${rgbToHex(element.fills[0].color.r)}${rgbToHex(element.fills[0].color.g)}${rgbToHex(element.fills[0].color.b)}`;
     } else {
       hexColor = `#${rgbToHex(element.children[0].fills[0].color.r)}${rgbToHex(element.children[0].fills[0].color.g)}${rgbToHex(element.children[0].fills[0].color.b)}`;
     }
 
+    // Run styleElement function on each element depending on name value
     switch(element.name) {
       case 'h1': 
-        //do stuff
         styleElement('h1', element, hexTextColor)
         break;
       case 'h2': 
-        //do stuff
         styleElement('h2', element, hexTextColor)
         break;
       case 'h3': 
-        //do stuff
         styleElement('h3', element, hexTextColor)
         break;
       case 'h4': 
-        //do stuff
         styleElement('h4', element, hexTextColor)
         break;
       case 'h5': 
-        //do stuff
         styleElement('h5', element, hexTextColor)
         break;
       case 'h6': 
-        //do stuff
         styleElement('h6', element, hexTextColor)
         break;
       case 'p': 
-        //do stuff
         styleElement('p', element, hexTextColor)
         break;
       case 'a': 
-        //do stuff
         styleElement('a', element, hexTextColor)
         break;
       case '.button--primary': 
-        //do stuff
           figmaObj.buttonPrimary.background = hexColor;
           figmaObj.buttonPrimary.borderRadius = `${element.children[0].cornerRadius}px`;
         break;
       case '.button--secondary': 
-        //do stuff
           figmaObj.buttonSecondary.background = hexColor;
 
           if (element.children[0].cornerRadius) {
@@ -121,6 +116,7 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
     }
   });
 
+// What gets written to the new SCSS file generated
 let figmaSCSS = `
 // Figma JSON to SCSS!
 h1 {
@@ -183,6 +179,7 @@ a {
 }
 `.trim();
 
+// Write new file to current directory
   fs.appendFile('figmaJSON.scss', figmaSCSS, function (err) {
     if (err) throw err;
     console.log('Saved!');
