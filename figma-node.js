@@ -183,10 +183,12 @@ a {
   fs.appendFile('figmaJSON.scss', figmaSCSS, function (err) {
     if (err) throw err;
     console.log('Saved!');
+    process.exit();
   });
   
 }).catch(err => {
   throw err;
+  process.exit();
 });;
 
 
