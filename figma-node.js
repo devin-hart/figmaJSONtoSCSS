@@ -62,9 +62,6 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
 
 // readline.question(`What's the Figma File ID?`, (id) => {
 
-//   const token = '10986-96289412-e998-4633-9cf5-65ccb2d00102';
-//   const testFigma = 'J8JxAMC8CrKl8D9pLaank86C';
-//   const fullDesign = 'LtpJ5x1GFfcjps2HJXCK5Tiw;'
 //   const client = Figma.Client({
 //     personalAccessToken: token
 //   });
