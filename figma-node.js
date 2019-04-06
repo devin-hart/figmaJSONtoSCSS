@@ -192,7 +192,9 @@ a {
     console.log('Saved!');
   });
   
-});
+}).catch(err => {
+  throw err;
+});;
 
 // ************** //
 // For future use //
