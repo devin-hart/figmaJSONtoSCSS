@@ -1,4 +1,3 @@
-//Load HTTP module
 const http = require("http");
 const hostname = '127.0.0.1';
 const port = 3000;
@@ -12,14 +11,13 @@ const readline = require('readline').createInterface({
 require('dotenv').config();
 
 const server = http.createServer((req, res) => {
-
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
   res.end('Hello World\n');
 });
 
 server.listen(port, hostname, () => {
-  console.log('FigmaJSON Scraper Activated');
+  console.log('FigmaJSONtoSCSS Initialized');
 });
 
 const client = Figma.Client({
@@ -53,8 +51,6 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
   };
 
   figmaData.forEach(element => {
-    console.log(element.name);
-
     if (element.name === 'h1') {
       let hexTextColor =  `#${rgbToHex(element.fills[0].color.r)}${rgbToHex(element.fills[0].color.g)}${rgbToHex(element.fills[0].color.b)}`;
       figmaObj.h1.color = hexTextColor;
@@ -76,7 +72,6 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
       figmaObj.h3.fontFamily = `"${element.style.fontFamily}"`;
     }
     
-
     if (element.name === 'h4') {
       let hexTextColor =  `#${rgbToHex(element.fills[0].color.r)}${rgbToHex(element.fills[0].color.g)}${rgbToHex(element.fills[0].color.b)}`;
       figmaObj.h4.color = hexTextColor;
@@ -199,12 +194,14 @@ a {
   
 });
 
-// readline.question(`What's the Figma File ID?`, (id) => {
+// ************** //
+// For future use //
+// ************** //
 
+// readline.question(`What's the Figma File ID?`, (id) => {
 //   const client = Figma.Client({
 //     personalAccessToken: token
 //   });
-
 
 //   client.file(id).then(({ data }) => {
 //     let figma = data.document.children[0].children[0].children;
@@ -212,18 +209,13 @@ a {
 
 //     figma.forEach(element => {
 //       if (element.name === '.button') {
-//         buttonCSS = `
-//   ${element.name} {
-//     border-radius: ${element.children[0].cornerRadius};
-//   }
-//         `;
+
 //       }
 //     });
 
 //     fs.appendFile('mynewfile1.css', buttonCSS, function (err) {
 //       if (err) throw err;
 //       console.log('Saved!');
-//     });
-    
+//     });    
 //   });
 // })
