@@ -24,6 +24,8 @@ const client = Figma.Client({
   personalAccessToken: process.env.TOKEN
 });
 
+
+
 client.file(process.env.TEST_FIGMA).then(({ data }) => {
   let figmaData = data.document.children[0].children[0].children;
 
@@ -32,10 +34,18 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
     if (hex.length < 2) {
       return `0${hex.slice(-2)}`;
     } else {
-      console.log(hex);
       return hex;
     }
   };
+
+  const styleElement = (htmlTag, element, hexTextColor) => {
+    figmaObj[htmlTag].color = hexTextColor;
+    figmaObj[htmlTag].fontSize = `${element.style.fontSize}px`;
+    figmaObj[htmlTag].fontFamily = `"${element.style.fontFamily}"`;
+    if (htmlTag === 'a') {
+      figmaObj[htmlTag].textDecoration = `"${element.style.textDecoration.toLowerCase()}"`;
+    }
+  }
 
   let figmaObj = {
     h1: {color: '', fontSize: '', fontFamily: ''},
@@ -50,83 +60,69 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
     buttonSecondary: {background: '', borderRadius: ''}
   };
 
-  figmaData.forEach(element => {
-    if (element.name === 'h1') {
-      let hexTextColor =  `#${rgbToHex(element.fills[0].color.r)}${rgbToHex(element.fills[0].color.g)}${rgbToHex(element.fills[0].color.b)}`;
-      figmaObj.h1.color = hexTextColor;
-      figmaObj.h1.fontSize = `${element.style.fontSize}px`;
-      figmaObj.h1.fontFamily = `"${element.style.fontFamily}"`;
+  figmaData.forEach((element) => {
+    let hexTextColor;
+    let hexColor;
+
+    if (element.fills !== undefined) {
+      hexTextColor =  `#${rgbToHex(element.fills[0].color.r)}${rgbToHex(element.fills[0].color.g)}${rgbToHex(element.fills[0].color.b)}`;
+    } else {
+      hexColor = `#${rgbToHex(element.children[0].fills[0].color.r)}${rgbToHex(element.children[0].fills[0].color.g)}${rgbToHex(element.children[0].fills[0].color.b)}`;
     }
 
-    if (element.name === 'h2') {
-      let hexTextColor =  `#${rgbToHex(element.fills[0].color.r)}${rgbToHex(element.fills[0].color.g)}${rgbToHex(element.fills[0].color.b)}`;
-      figmaObj.h2.color = hexTextColor;
-      figmaObj.h2.fontSize = `${element.style.fontSize}px`;
-      figmaObj.h2.fontFamily = `"${element.style.fontFamily}"`;
-    }
+    switch(element.name) {
+      case 'h1': 
+        //do stuff
+        styleElement('h1', element, hexTextColor)
+        break;
+      case 'h2': 
+        //do stuff
+        styleElement('h2', element, hexTextColor)
+        break;
+      case 'h3': 
+        //do stuff
+        styleElement('h3', element, hexTextColor)
+        break;
+      case 'h4': 
+        //do stuff
+        styleElement('h4', element, hexTextColor)
+        break;
+      case 'h5': 
+        //do stuff
+        styleElement('h5', element, hexTextColor)
+        break;
+      case 'h6': 
+        //do stuff
+        styleElement('h6', element, hexTextColor)
+        break;
+      case 'p': 
+        //do stuff
+        styleElement('p', element, hexTextColor)
+        break;
+      case 'a': 
+        //do stuff
+        styleElement('a', element, hexTextColor)
+        break;
+      case '.button--primary': 
+        //do stuff
+          figmaObj.buttonPrimary.background = hexColor;
+          figmaObj.buttonPrimary.borderRadius = `${element.children[0].cornerRadius}px`;
+        break;
+      case '.button--secondary': 
+        //do stuff
+          figmaObj.buttonSecondary.background = hexColor;
 
-    if (element.name === 'h3') {
-      let hexTextColor =  `#${rgbToHex(element.fills[0].color.r)}${rgbToHex(element.fills[0].color.g)}${rgbToHex(element.fills[0].color.b)}`;
-      figmaObj.h3.color = hexTextColor;
-      figmaObj.h3.fontSize = `${element.style.fontSize}px`;
-      figmaObj.h3.fontFamily = `"${element.style.fontFamily}"`;
-    }
-    
-    if (element.name === 'h4') {
-      let hexTextColor =  `#${rgbToHex(element.fills[0].color.r)}${rgbToHex(element.fills[0].color.g)}${rgbToHex(element.fills[0].color.b)}`;
-      figmaObj.h4.color = hexTextColor;
-      figmaObj.h4.fontSize = `${element.style.fontSize}px`;
-      figmaObj.h4.fontFamily = `"${element.style.fontFamily}"`;
-    }
-
-    if (element.name === 'h5') {
-      let hexTextColor =  `#${rgbToHex(element.fills[0].color.r)}${rgbToHex(element.fills[0].color.g)}${rgbToHex(element.fills[0].color.b)}`;
-      figmaObj.h5.color = hexTextColor;
-      figmaObj.h5.fontSize = `${element.style.fontSize}px`;
-      figmaObj.h5.fontFamily = `"${element.style.fontFamily}"`;
-    }
-
-    if (element.name === 'h6') {
-      let hexTextColor =  `#${rgbToHex(element.fills[0].color.r)}${rgbToHex(element.fills[0].color.g)}${rgbToHex(element.fills[0].color.b)}`;
-      figmaObj.h6.color = hexTextColor;
-      figmaObj.h6.fontSize = `${element.style.fontSize}px`;
-      figmaObj.h6.fontFamily = `"${element.style.fontFamily}"`;
-    }
-
-    if (element.name === 'p') {
-      let hexTextColor =  `#${rgbToHex(element.fills[0].color.r)}${rgbToHex(element.fills[0].color.g)}${rgbToHex(element.fills[0].color.b)}`;
-      figmaObj.p.color = hexTextColor;
-      figmaObj.p.fontSize = `${element.style.fontSize}px`;
-      figmaObj.p.fontFamily = `"${element.style.fontFamily}"`;
-    }
-
-    if (element.name === 'a') {
-      let hexTextColor =  `#${rgbToHex(element.fills[0].color.r)}${rgbToHex(element.fills[0].color.g)}${rgbToHex(element.fills[0].color.b)}`;
-      figmaObj.a.color = hexTextColor;
-      figmaObj.a.fontSize = `${element.style.fontSize}px`;
-      figmaObj.a.fontFamily = `"${element.style.fontFamily}"`;
-      figmaObj.a.textDecoration = `"${element.style.textDecoration}"`;
-    }
-
-    if (element.name === '.button--primary') {
-      let hexColor =  `#${rgbToHex(element.children[0].fills[0].color.r)}${rgbToHex(element.children[0].fills[0].color.g)}${rgbToHex(element.children[0].fills[0].color.b)}`;
-      figmaObj.buttonPrimary.background = hexColor;
-      figmaObj.buttonPrimary.borderRadius = `${element.children[0].cornerRadius}px`;
-    }
-
-    if (element.name === '.button--secondary') {
-      let hexColor =  `#${rgbToHex(element.children[0].fills[0].color.r)}${rgbToHex(element.children[0].fills[0].color.g)}${rgbToHex(element.children[0].fills[0].color.b)}`;
-      figmaObj.buttonSecondary.background = hexColor;
-
-      if (element.children[0].cornerRadius) {
-        figmaObj.buttonSecondary.borderRadius = `${element.children[0].cornerRadius}px`;
-      } else {
-        figmaObj.buttonSecondary.borderRadius = `0px`;
-      }
+          if (element.children[0].cornerRadius) {
+            figmaObj.buttonSecondary.borderRadius = `${element.children[0].cornerRadius}px`;
+          } else {
+            figmaObj.buttonSecondary.borderRadius = `0px`;
+          }
+        break;
     }
   });
 
-  let figmaSCSS = `// Figma JSON to SCSS
+let figmaSCSS = `
+// Figma JSON to SCSS!
 h1 {
   color: ${figmaObj.h1.color};
   font-size: ${figmaObj.h1.fontSize};
@@ -185,7 +181,7 @@ a {
   background: ${figmaObj.buttonSecondary.background};
   border-radius: ${figmaObj.buttonSecondary.borderRadius};
 }
-`;
+`.trim();
 
   fs.appendFile('figmaJSON.scss', figmaSCSS, function (err) {
     if (err) throw err;
@@ -196,9 +192,10 @@ a {
   throw err;
 });;
 
+
 // ************** //
 // For future use //
-// ************** //
+// ************** /
 
 // readline.question(`What's the Figma File ID?`, (id) => {
 //   const client = Figma.Client({

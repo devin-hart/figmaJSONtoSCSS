@@ -1,0 +1,59 @@
+// Figma JSON to SCSS!
+h1 {
+  color: #ff0000;
+  font-size: 32px;
+  font-family: "Roboto";
+}
+
+h2 {
+  color: #008115;
+  font-size: 24px;
+  font-family: "Quattrocento";
+}
+
+h3 {
+  color: #2400ff;
+  font-size: 18.719999313354492px;
+  font-family: "KoPub Batang";
+}
+
+h4 {
+  color: #dbff00;
+  font-size: 16px;
+  font-family: "Yantramanav";
+}
+
+h5 {
+  color: #ff00d6;
+  font-size: 13.279999732971191px;
+  font-family: "Zilla Slab";
+}
+
+h6 {
+  color: #00ffff;
+  font-size: 12px;
+  font-family: "Mukta";
+}
+
+p {
+  color: #666666;
+  font-size: 12px;
+  font-family: "Montserrat";
+}
+
+a {
+  color: #0500ff;
+  font-size: 18px;
+  font-family: "Montserrat";
+  text-decoration: "underline";
+}
+
+.button--primary {
+  background: #b82929;
+  border-radius: 32px;
+}
+
+.button--secondary {
+  background: #1e5fc0;
+  border-radius: 0px;
+}
