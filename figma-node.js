@@ -30,6 +30,7 @@ const client = Figma.Client({
 client.file(process.env.TEST_FIGMA).then(({ data }) => {
   let figmaData = data.document.children[0].children[0].children;
 
+
   // Convert RGB values to hex value
   const rgbToHex = (rgb) => {
     let hex = (rgb * 255).toString(16);
@@ -76,35 +77,35 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
 
     // Run styleElement function on each element depending on name value
     switch(element.name) {
-      case 'h1': 
+      case 'h1':
         styleElement('h1', element, hexTextColor)
         break;
-      case 'h2': 
+      case 'h2':
         styleElement('h2', element, hexTextColor)
         break;
-      case 'h3': 
+      case 'h3':
         styleElement('h3', element, hexTextColor)
         break;
-      case 'h4': 
+      case 'h4':
         styleElement('h4', element, hexTextColor)
         break;
-      case 'h5': 
+      case 'h5':
         styleElement('h5', element, hexTextColor)
         break;
-      case 'h6': 
+      case 'h6':
         styleElement('h6', element, hexTextColor)
         break;
-      case 'p': 
+      case 'p':
         styleElement('p', element, hexTextColor)
         break;
-      case 'a': 
+      case 'a':
         styleElement('a', element, hexTextColor)
         break;
-      case '.button--primary': 
+      case '.button--primary':
           figmaObj.buttonPrimary.background = hexColor;
           figmaObj.buttonPrimary.borderRadius = `${element.children[0].cornerRadius}px`;
         break;
-      case '.button--secondary': 
+      case '.button--secondary':
           figmaObj.buttonSecondary.background = hexColor;
 
           if (element.children[0].cornerRadius) {
@@ -180,12 +181,13 @@ a {
 `.trim();
 
 // Write new file to current directory
-  fs.appendFile('figmaJSON.scss', figmaSCSS, function (err) {
+
+  fs.writeFile('figmaJSON.scss', figmaSCSS, function (err) {
     if (err) throw err;
     console.log('Saved!');
     process.exit();
   });
-  
+
 }).catch(err => {
   throw err;
   process.exit();
@@ -214,6 +216,6 @@ a {
 //     fs.appendFile('mynewfile1.css', buttonCSS, function (err) {
 //       if (err) throw err;
 //       console.log('Saved!');
-//     });    
+//     });
 //   });
 // })

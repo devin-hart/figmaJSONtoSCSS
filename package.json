@@ -1,0 +1,23 @@
+{
+  "name": "figmajsontoscss",
+  "version": "1.0.0",
+  "description": "Initialize NPM\r `npm init`",
+  "main": "figma-node.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devin-hart/figmaJSONtoSCSS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/devin-hart/figmaJSONtoSCSS/issues"
+  },
+  "homepage": "https://github.com/devin-hart/figmaJSONtoSCSS#readme",
+  "dependencies": {
+    "dotenv": "^7.0.0",
+    "figma-js": "^1.6.1"
+  }
+}
