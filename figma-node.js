@@ -30,13 +30,14 @@ const client = Figma.Client({
 client.file(process.env.TEST_FIGMA).then(({ data }) => {
   let figmaData = data.document.children[0].children[0].children;
 
-
   // Convert RGB values to hex value
   const rgbToHex = (rgb) => {
-    let hex = (rgb * 255).toString(16);
+    console.log(rgb);
+    
+    let hex = Math.round(rgb * 255).toString(16);
     if (hex.length < 2) {
       return `0${hex.slice(-2)}`;
-    } else {
+    } else {      
       return hex;
     }
   };
