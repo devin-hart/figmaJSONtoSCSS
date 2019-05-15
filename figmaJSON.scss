@@ -1,59 +1,103 @@
 // Figma JSON to SCSS!
 h1 {
-  color: #ff0000;
-  font-size: 32px;
+  color: #000000;
+  font-size: 36px;
   font-family: "Roboto";
+
+  @include breakpoint("medium") {// 801px and up
+    font-size: 48px;
+  }
 }
 
 h2 {
-  color: #008115;
+  color: #000000;
   font-size: 24px;
-  font-family: "Quattrocento";
+  font-family: "Roboto";
+
+  @include breakpoint("medium") {// 801px and up
+    font-size: 36px;
+  }
 }
 
 h3 {
-  color: #2400ff;
-  font-size: 18.719999313354492px;
-  font-family: "KoPub Batang";
+  color: #000000;
+  font-size: 18px;
+  font-family: "Roboto";
+
+  @include breakpoint("medium") {// 801px and up
+    font-size: 24px;
+  }
 }
 
 h4 {
-  color: #dbff00;
-  font-size: 16px;
-  font-family: "Yantramanav";
-}
+  color: #000000;
+  font-size: 14px;
+  font-family: "Roboto";
 
-h5 {
-  color: #ff00d6;
-  font-size: 13.279999732971191px;
-  font-family: "Zilla Slab";
-}
-
-h6 {
-  color: #00ffff;
-  font-size: 12px;
-  font-family: "Mukta";
+  @include breakpoint("medium") {// 801px and up
+    font-size: 18px;
+  }
 }
 
 p {
-  color: #666666;
+  color: #000000;
   font-size: 12px;
-  font-family: "Montserrat";
+  font-family: "Roboto";
 }
 
 a {
-  color: #0500ff;
-  font-size: 18px;
-  font-family: "Montserrat";
-  text-decoration: "underline";
+  color: #000000;
+  font-size: 12px;
+  font-family: "Roboto";
 }
 
 .button--primary {
-  background: #b82929;
-  border-radius: 32px;
+  background: #3465fa;
+  border-radius: 12px;
+  color: #ffffff;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background: #3465fa;
+    color: #ffffff;
+  }
 }
 
 .button--secondary {
-  background: #1e5fc0;
+  background: none;
   border-radius: 0px;
+  color: #3465fa;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background: none;
+    color: #3465fa;
+  }
 }
+
+.card-figcaption-button {
+  background: #3465fa;
+  border-radius: 0px;
+  color: #ffffff;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background: #3465fa;
+    color: #ffffff;
+  }
+}
+
+$color-primary: #3465fa;
+$color-primary--hover: #83a1fb;
+$color-primary--sub: #052894;
+
+$color-secondary: #002fc6;
+$color-secondary--hover: #6980c9;
+$color-secondary--sub: #021550;
+
+$color-alt: #6ad5ba;
+$color-alt--hover: #aff5e3;
+$color-alt--sub: #23725e;
