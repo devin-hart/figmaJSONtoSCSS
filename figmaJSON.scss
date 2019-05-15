@@ -46,7 +46,7 @@ p {
 }
 
 a {
-  color: #000000;
+  color: #1400ff;
   font-size: 12px;
   font-family: "Roboto";
 }
@@ -54,7 +54,7 @@ a {
 .button--primary {
   background: #3465fa;
   border-radius: 12px;
-  color: #ffffff;
+
 
   &:hover,
   &:active,
@@ -64,20 +64,38 @@ a {
   }
 }
 
+.button--primary a {
+  color: #ffffff;
+  
+  &:hover,
+  &:active,
+  &:focus {
+    color: #ffffff;
+  }
+}
+
 .button--secondary {
   background: none;
   border-radius: 0px;
-  color: #3465fa;
 
   &:hover,
   &:active,
   &:focus {
     background: none;
+  }
+}
+
+.button--secondary a {
+  color: #3465fa;
+  
+  &:hover,
+  &:active,
+  &:focus {
     color: #3465fa;
   }
 }
 
-.card-figcaption-button {
+.button--small {
   background: #3465fa;
   border-radius: 0px;
   color: #ffffff;

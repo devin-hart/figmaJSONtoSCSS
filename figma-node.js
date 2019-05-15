@@ -128,7 +128,7 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
       }
     }
 
-    // Run styleElement function on each element depending on name value
+    // Apply styyyyyyle
     switch(element.name) {
       case 'h1':
         styleTextElement('h1', element, hexTextColor)
@@ -303,7 +303,7 @@ a {
 .button--primary {
   background: ${figmaObj.buttonPrimary.background};
   border-radius: ${figmaObj.buttonPrimary.borderRadius};
-  color: ${figmaObj.buttonPrimary.color};
+
 
   &:hover,
   &:active,
@@ -313,20 +313,38 @@ a {
   }
 }
 
+.button--primary a {
+  color: ${figmaObj.buttonPrimary.color};
+  
+  &:hover,
+  &:active,
+  &:focus {
+    color: ${figmaObj.buttonPrimaryHover.color};
+  }
+}
+
 .button--secondary {
   background: ${figmaObj.buttonSecondary.background};
   border-radius: ${figmaObj.buttonSecondary.borderRadius};
-  color: ${figmaObj.buttonSecondary.color};
 
   &:hover,
   &:active,
   &:focus {
     background: ${figmaObj.buttonSecondaryHover.background};
+  }
+}
+
+.button--secondary a {
+  color: ${figmaObj.buttonSecondary.color};
+  
+  &:hover,
+  &:active,
+  &:focus {
     color: ${figmaObj.buttonSecondaryHover.color};
   }
 }
 
-.card-figcaption-button {
+.button--small {
   background: ${figmaObj.buttonSmall.background};
   border-radius: ${figmaObj.buttonSmall.borderRadius};
   color: ${figmaObj.buttonSmall.color};
