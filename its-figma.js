@@ -92,6 +92,7 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
     buttonSecondaryHover: {background: '', borderRadius: '', color: ''},
     buttonSmall: {background: '', borderRadius: '', color: '', border: '', padding: ''},
     buttonSmallHover: {background: '', borderRadius: '', color: ''},
+    icon: {fill: '', height: '', width: ''},
     colorPrimary: {color: ''},
     colorPrimaryHover: {color: ''},
     colorPrimarySub: {color: ''},
@@ -184,6 +185,14 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
       }
     }
 
+    if (element.type === 'VECTOR') {
+      if (element.fills.length > 0) {
+        hexColor = `#${rgbToHex(element.fills[0].color.r)}${rgbToHex(element.fills[0].color.g)}${rgbToHex(element.fills[0].color.b)}`;
+      } else {
+        hexColor = 'none';
+      }
+    }
+
     // Apply styyyyyyle
     switch(element.name) {
       case 'h1':
@@ -261,6 +270,11 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
       case 'small--hover':
         styleButtonElement('buttonSmallHover', hexColor, hexTextColor, border, borderRadius);
         break;
+      case 'icon':
+        figmaObj.icon.fill = hexColor;
+        figmaObj.icon.height = `${element.absoluteBoundingBox.height}px`;
+        figmaObj.icon.width = `${element.absoluteBoundingBox.width}px`;
+        break;
       case '$color-primary':
         figmaObj.colorPrimary.color = hexColor;
         break;
@@ -294,6 +308,8 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
 // What gets written to the new SCSS file generated
 let figmaSCSS = `
 // Figma JSON to SCSS!
+
+${(figmaObj.h1.color.length > 0) ? `
 h1 {
   color: ${figmaObj.h1.color};
   font-size: ${figmaObj.h1Mobile.fontSize};
@@ -304,7 +320,9 @@ h1 {
     font-size: ${figmaObj.h1.fontSize};
   }
 }
+` : ''}
 
+${(figmaObj.h2.color.length > 0) ? `
 h2 {
   color: ${figmaObj.h2.color};
   font-size: ${figmaObj.h2Mobile.fontSize};
@@ -315,7 +333,9 @@ h2 {
     font-size: ${figmaObj.h2.fontSize};
   }
 }
+` : ''}
 
+${(figmaObj.h3.color.length > 0) ? `
 h3 {
   color: ${figmaObj.h3.color};
   font-size: ${figmaObj.h3Mobile.fontSize};
@@ -326,6 +346,8 @@ h3 {
     font-size: ${figmaObj.h3.fontSize};
   }
 }
+` : ''}
+
 
 h4 {
   color: ${figmaObj.h4.color};
@@ -372,7 +394,7 @@ a {
   border-radius: ${figmaObj.inputFocus.borderRadius};
 }
 
-.button--primary {
+.button.button--primary {
   background: ${figmaObj.buttonPrimary.background};
   border-radius: ${figmaObj.buttonPrimary.borderRadius};
   border: ${figmaObj.buttonPrimary.border};
@@ -386,7 +408,7 @@ a {
   }
 }
 
-.button--primary a {
+.button.button--primary a {
   color: ${figmaObj.buttonPrimary.color};
   
   &:hover,
@@ -396,7 +418,7 @@ a {
   }
 }
 
-.button--secondary {
+.button.button--secondary {
   background: ${figmaObj.buttonSecondary.background};
   border-radius: ${figmaObj.buttonSecondary.borderRadius};
   border: ${figmaObj.buttonSecondary.border};
@@ -408,7 +430,7 @@ a {
   }
 }
 
-.button--secondary a {
+.button.button--secondary a {
   color: ${figmaObj.buttonSecondary.color};
   
   &:hover,
@@ -418,7 +440,7 @@ a {
   }
 }
 
-.button--small {
+.button.button--small {
   background: ${figmaObj.buttonSmall.background};
   border-radius: ${figmaObj.buttonSmall.borderRadius};
   color: ${figmaObj.buttonSmall.color};
@@ -430,6 +452,12 @@ a {
     background: ${figmaObj.buttonSmallHover.background};
     color: ${figmaObj.buttonSmallHover.color};
   }
+}
+
+.icon svg {
+  fill: ${figmaObj.icon.fill};
+  height: ${figmaObj.icon.height};
+  width: ${figmaObj.icon.width};
 }
 
 $color-primary: ${figmaObj.colorPrimary.color};
@@ -469,6 +497,6 @@ $color-alt--sub: ${figmaObj.colorAltSub.color};
   });
 
 }).catch(err => {
-  throw err;
   process.exit();
+  throw err;
 });

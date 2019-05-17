@@ -1,150 +1,142 @@
 // Figma JSON to SCSS!
-h1 {
-  color: #0500ff;
-  font-size: 36px;
-  font-family: "Roboto";
-  font-weight: 700;
 
-  @include breakpoint("medium") {// 801px and up
-    font-size: 48px;
-  }
-}
+undefined
 
-h2 {
-  color: #000000;
-  font-size: 24px;
-  font-family: "Roboto";
-  font-weight: 500;
 
-  @include breakpoint("medium") {// 801px and up
-    font-size: 36px;
-  }
-}
+
 
 h3 {
-  color: #000000;
-  font-size: 18px;
+  color: #ffffff;
+  font-size: ;
   font-family: "Roboto";
-  font-weight: 400;
-
-  @include breakpoint("medium") {// 801px and up
-    font-size: 24px;
-  }
-}
-
-h4 {
-  color: #000000;
-  font-size: 14px;
-  font-family: "Roboto";
-  font-weight: 300;
+  font-weight: 700;
 
   @include breakpoint("medium") {// 801px and up
     font-size: 18px;
   }
 }
 
+
+
+h4 {
+  color: ;
+  font-size: ;
+  font-family: ;
+  font-weight: ;
+
+  @include breakpoint("medium") {// 801px and up
+    font-size: ;
+  }
+}
+
 p {
-  color: #000000;
+  color: #0066ff;
   font-size: 12px;
   font-family: "Roboto";
-  font-weight: 400;
+  font-weight: 700;
 }
 
 a {
-  color: #1400ff;
-  font-size: 12px;
-  font-family: "Roboto";
-  font-weight: 400;
-  text-decoration: none;
+  color: ;
+  font-size: ;
+  font-family: ;
+  font-weight: ;
+  text-decoration: ;
 
   &:hover,
   &:active,
   &:focus {
-    text-decoration: underline;
-    color: #ff008a;
+    text-decoration: ;
+    color: ;
   }
 }
 
 .form-input {
-  background: #f7f7f7;
-  border: 1px solid #c4c4c4;
-  border-radius: 3px;
+  background: ;
+  border: ;
+  border-radius: undefined;
 }
 
 .form-input:focus {
-  background: none;
-  border: 1px solid #6f6f6f;
-  border-radius: 3px;
+  background: ;
+  border: ;
+  border-radius: undefined;
 }
 
-.button--primary {
-  background: #3465fa;
-  border-radius: 12px;
+.button.button--primary {
+  background: #94141c;
+  border-radius: 0px;
   border: none;
-  padding: 2px;
+  padding: 15px;
 
   &:hover,
   &:active,
   &:focus {
-    background: #3465fa;
-    color: #ffffff;
+    background: ;
+    color: ;
   }
 }
 
-.button--primary a {
+.button.button--primary a {
   color: #ffffff;
   
   &:hover,
   &:active,
   &:focus {
-    color: #ffffff;
+    color: ;
   }
 }
 
-.button--secondary {
-  background: none;
-  border-radius: 0px;
-  border: 1px solid #3465fa;
+.button.button--secondary {
+  background: ;
+  border-radius: ;
+  border: ;
 
   &:hover,
   &:active,
   &:focus {
-    background: none;
+    background: ;
   }
 }
 
-.button--secondary a {
-  color: #3465fa;
+.button.button--secondary a {
+  color: ;
   
   &:hover,
   &:active,
   &:focus {
-    color: #3465fa;
+    color: ;
   }
 }
 
-.button--small {
-  background: #3465fa;
-  border-radius: 0px;
-  color: #ffffff;
-  border: none;
+.button.button--small {
+  background: ;
+  border-radius: ;
+  color: ;
+  border: ;
 
   &:hover,
   &:active,
   &:focus {
-    background: #3465fa;
-    color: #ffffff;
+    background: ;
+    color: ;
   }
 }
 
-$color-primary: #3465fa;
-$color-primary--hover: #83a1fb;
-$color-primary--sub: #052894;
+.icon svg {
+  fill: #ffffff;
+  height: 14.086956024169922px;
+  width: 14.086956024169922px;
+}
 
-$color-secondary: #002fc6;
-$color-secondary--hover: #6980c9;
-$color-secondary--sub: #021550;
+$color-primary: ;
+$color-primary--hover: ;
+$color-primary--sub: ;
 
-$color-alt: #6ad5ba;
-$color-alt--hover: #aff5e3;
-$color-alt--sub: #23725e;
+$color-secondary: ;
+$color-secondary--hover: ;
+$color-secondary--sub: ;
+
+$color-alt: ;
+$color-alt--hover: ;
+$color-alt--sub: ;

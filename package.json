@@ -19,5 +19,8 @@
   "dependencies": {
     "dotenv": "^7.0.0",
     "figma-js": "^1.6.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0"
   }
 }
