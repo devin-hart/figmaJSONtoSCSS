@@ -1,25 +1,30 @@
-const http = require("http");
-const hostname = '127.0.0.1';
-const port = 3000;
-const Figma = require('./node_modules/figma-js');
+const Figma = require('figma-js');
 const fs = require('fs');
-const readline = require('readline').createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
 
 require('dotenv').config();
 
-// Start server
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World\n');
-});
-
-server.listen(port, hostname, () => {
-  console.log('FigmaJSONtoSCSS Initialized');
-});
+console.log(`
+███████╗██╗ ██████╗ ███╗   ███╗ █████╗ 
+██╔════╝██║██╔════╝ ████╗ ████║██╔══██╗
+█████╗  ██║██║  ███╗██╔████╔██║███████║
+██╔══╝  ██║██║   ██║██║╚██╔╝██║██╔══██║
+██║     ██║╚██████╔╝██║ ╚═╝ ██║██║  ██║
+╚═╝     ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚═╝  ╚═╝
+                                       
+████████╗ ██████╗ 
+╚══██╔══╝██╔═══██╗
+   ██║   ██║   ██║
+   ██║   ██║   ██║
+   ██║   ╚██████╔╝
+   ╚═╝    ╚═════╝ 
+                  
+███████╗ ██████╗███████╗███████╗
+██╔════╝██╔════╝██╔════╝██╔════╝
+███████╗██║     ███████╗███████╗
+╚════██║██║     ╚════██║╚════██║
+███████║╚██████╗███████║███████║
+╚══════╝ ╚═════╝╚══════╝╚══════╝
+`);
 
 // Figma-js client
 const client = Figma.Client({
@@ -36,8 +41,6 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
       figmaData = data.document.children[i].children;
     }
   }
-
-  // console.log(figmaData);
 
   // Convert RGB values to hex value
   const rgbToHex = (rgb) => {
@@ -218,14 +221,14 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
           figmaObj.a.textDecoration = 'none';
         }
         break;
-        case 'a--hover':
-          if (element.style.textDecoration) {
-            figmaObj.aHover.textDecoration = element.style.textDecoration.toLowerCase();
-          } else {
-            figmaObj.aHover.textDecoration = 'none';
-          }
+      case 'a--hover':
+        if (element.style.textDecoration) {
+          figmaObj.aHover.textDecoration = element.style.textDecoration.toLowerCase();
+        } else {
+          figmaObj.aHover.textDecoration = 'none';
+        }
 
-          figmaObj.aHover.color = hexTextColor;
+        figmaObj.aHover.color = hexTextColor;
         break;
       case 'input--default':
         figmaObj.input.background = hexColor;
@@ -357,13 +360,13 @@ a {
   }
 }
 
-input {
+.form-input {
   background: ${figmaObj.input.background};
   border: ${figmaObj.input.border};
   border-radius: ${figmaObj.input.borderRadius};
 }
 
-input:focus {
+.form-input:focus {
   background: ${figmaObj.inputFocus.background};
   border: ${figmaObj.inputFocus.border};
   border-radius: ${figmaObj.inputFocus.borderRadius};
@@ -446,7 +449,22 @@ $color-alt--sub: ${figmaObj.colorAltSub.color};
 
   fs.writeFile('figmaJSON.scss', figmaSCSS, function (err) {
     if (err) throw err;
-    console.log('Saved!');
+    console.log(`
+███████╗██╗██╗     ███████╗
+██╔════╝██║██║     ██╔════╝
+█████╗  ██║██║     █████╗  
+██╔══╝  ██║██║     ██╔══╝  
+██║     ██║███████╗███████╗
+╚═╝     ╚═╝╚══════╝╚══════╝
+                                           
+███████╗ █████╗ ██╗   ██╗███████╗██████╗ 
+██╔════╝██╔══██╗██║   ██║██╔════╝██╔══██╗
+███████╗███████║██║   ██║█████╗  ██║  ██║
+╚════██║██╔══██║╚██╗ ██╔╝██╔══╝  ██║  ██║
+███████║██║  ██║ ╚████╔╝ ███████╗██████╔╝
+╚══════╝╚═╝  ╚═╝  ╚═══╝  ╚══════╝╚═════╝ 
+                                          
+`);
     process.exit();
   });
 
