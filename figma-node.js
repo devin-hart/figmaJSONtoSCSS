@@ -33,7 +33,7 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
   // Look for Figma page ITS Assets and store results to figmaData variable
   for (let i = 0; i < data.document.children.length; i++) {
     if (data.document.children[i].name === 'ITS Assets') {
-      figmaData = data.document.children[i].children[0].children;
+      figmaData = data.document.children[i].children;
     }
   }
 
@@ -41,8 +41,6 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
 
   // Convert RGB values to hex value
   const rgbToHex = (rgb) => {
-    // console.log(rgb);
-    
     let hex = Math.round(rgb * 255).toString(16);
     if (hex.length < 2) {
       return `0${hex.slice(-2)}`;
@@ -51,29 +49,45 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
     }
   };
 
+  // Convert element's height and font-size to padding
+  const calcPadding = (htmlTag, elementHeight, fontSize) => {
+    figmaObj[htmlTag].padding = `${(elementHeight - fontSize) / 2}px`;
+  }
+
   // Store values from API to figmaObj object
   const styleTextElement = (htmlTag, element, hexTextColor) => {
     figmaObj[htmlTag].color = hexTextColor;
     figmaObj[htmlTag].fontSize = `${element.style.fontSize}px`;
     figmaObj[htmlTag].fontFamily = `"${element.style.fontFamily}"`;
+    figmaObj[htmlTag].fontWeight = `${element.style.fontWeight}`;
+  }
+
+  const styleButtonElement = (htmlTag, hexColor, hexTextColor, border, borderRadius) => {
+    figmaObj[htmlTag].background = hexColor;
+    figmaObj[htmlTag].border = border;
+    figmaObj[htmlTag].borderRadius = borderRadius;
+    figmaObj[htmlTag].color = hexTextColor;
   }
 
   let figmaObj = {
-    h1: {color: '', fontSize: '', fontFamily: ''},
-    h1Mobile: {color: '', fontSize: '', fontFamily: ''},
-    h2: {color: '', fontSize: '', fontFamily: ''},
-    h2Mobile: {color: '', fontSize: '', fontFamily: ''},
-    h3: {color: '', fontSize: '', fontFamily: ''},
-    h3Mobile: {color: '', fontSize: '', fontFamily: ''},
-    h4: {color: '', fontSize: '', fontFamily: ''},
-    h4Mobile: {color: '', fontSize: '', fontFamily: ''},
-    p: {color: '', fontSize: '', fontFamily: ''},
-    a: {color: '', fontSize: '', fontFamily: ''},
-    buttonPrimary: {background: '', borderRadius: '', color: ''},
+    h1: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
+    h1Mobile: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
+    h2: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
+    h2Mobile: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
+    h3: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
+    h3Mobile: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
+    h4: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
+    h4Mobile: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
+    p: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
+    a: {color: '', fontSize: '', fontFamily: '', fontWeight: '', textDecoration: ''},
+    aHover: {color: '', textDecoration: ''},
+    input: {background: '', border: ''},
+    inputFocus: {background: '', border: ''},
+    buttonPrimary: {background: '', borderRadius: '', color: '', border: '', padding: ''},
     buttonPrimaryHover: {background: '', borderRadius: '', color: ''},
-    buttonSecondary: {background: '', borderRadius: '', color: ''},
+    buttonSecondary: {background: '', borderRadius: '', color: '', border: '', padding: ''},
     buttonSecondaryHover: {background: '', borderRadius: '', color: ''},
-    buttonSmall: {background: '', borderRadius: '', color: ''},
+    buttonSmall: {background: '', borderRadius: '', color: '', border: '', padding: ''},
     buttonSmallHover: {background: '', borderRadius: '', color: ''},
     colorPrimary: {color: ''},
     colorPrimaryHover: {color: ''},
@@ -89,19 +103,34 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
   figmaData.forEach((element) => {
     let hexTextColor;
     let hexColor;
+    let border;
     let borderRadius;
 
     console.log(element.name);
     console.log(element.type);
     
-    
-    // Combine seperate r, g, b key value pairs into a single hex value
     if (element.type === "TEXT") {
       hexTextColor =  `#${rgbToHex(element.fills[0].color.r)}${rgbToHex(element.fills[0].color.g)}${rgbToHex(element.fills[0].color.b)}`;
     }
 
     if (element.type === "RECTANGLE") {
-      hexColor = `#${rgbToHex(element.fills[0].color.r)}${rgbToHex(element.fills[0].color.g)}${rgbToHex(element.fills[0].color.b)}`;
+      if (element.fills.length > 0) {
+        hexColor = `#${rgbToHex(element.fills[0].color.r)}${rgbToHex(element.fills[0].color.g)}${rgbToHex(element.fills[0].color.b)}`;
+      } else {
+        hexColor = 'none';
+      }
+
+      if (element.strokes.length > 0) {
+        border = `${element.strokeWeight}px solid #${rgbToHex(element.strokes[0].color.r)}${rgbToHex(element.strokes[0].color.g)}${rgbToHex(element.strokes[0].color.b)}`
+      } else {
+        border = 'none';
+      }
+
+      if (element.cornerRadius) {
+        borderRadius = `${element.cornerRadius}px`;
+      } else {
+        borderRadius = '0px';
+      }
     }
 
     if (element.type === 'FRAME') {
@@ -109,6 +138,18 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
         hexColor = `#${rgbToHex(element.children[0].fills[0].color.r)}${rgbToHex(element.children[0].fills[0].color.g)}${rgbToHex(element.children[0].fills[0].color.b)}`;
       } else {
         hexColor = 'none';
+      }
+
+      if (element.children[0].cornerRadius) {
+        borderRadius = `${element.children[0].cornerRadius}px`;
+      } else {
+        borderRadius = '0px';
+      }
+
+      if (element.children[0].strokes.length > 0) {
+        border = `${element.children[0].strokeWeight}px solid #${rgbToHex(element.children[0].strokes[0].color.r)}${rgbToHex(element.children[0].strokes[0].color.g)}${rgbToHex(element.children[0].strokes[0].color.b)}`
+      } else {
+        border = 'none';
       }
 
       if (element.children[1].fills.length > 0) {
@@ -123,6 +164,18 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
         hexColor = 'none';
       }
 
+      if (element.children[0].strokes.length > 0) {
+        border = `${element.children[0].strokeWeight}px solid #${rgbToHex(element.children[0].strokes[0].color.r)}${rgbToHex(element.children[0].strokes[0].color.g)}${rgbToHex(element.children[0].strokes[0].color.b)}`
+      } else {
+        border = 'none';
+      }
+
+      if (element.children[0].cornerRadius) {
+        borderRadius = `${element.children[0].cornerRadius}px`;
+      } else {
+        borderRadius = '0px';
+      }
+
       if (element.children[1].fills.length > 0) {
         hexTextColor = `#${rgbToHex(element.children[1].fills[0].color.r)}${rgbToHex(element.children[1].fills[0].color.g)}${rgbToHex(element.children[1].fills[0].color.b)}`;
       }
@@ -131,89 +184,79 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
     // Apply styyyyyyle
     switch(element.name) {
       case 'h1':
-        styleTextElement('h1', element, hexTextColor)
+        styleTextElement('h1', element, hexTextColor);
         break;
       case 'h1--mobile':
-        styleTextElement('h1Mobile', element, hexTextColor)
+        styleTextElement('h1Mobile', element, hexTextColor);
         break;
       case 'h2':
-        styleTextElement('h2', element, hexTextColor)
+        styleTextElement('h2', element, hexTextColor);
         break;
       case 'h2--mobile':
-        styleTextElement('h2Mobile', element, hexTextColor)
+        styleTextElement('h2Mobile', element, hexTextColor);
         break;
       case 'h3':
-        styleTextElement('h3', element, hexTextColor)
+        styleTextElement('h3', element, hexTextColor);
         break;
       case 'h3--mobile':
-        styleTextElement('h3Mobile', element, hexTextColor)
+        styleTextElement('h3Mobile', element, hexTextColor);
         break;
       case 'h4':
-        styleTextElement('h4', element, hexTextColor)
+        styleTextElement('h4', element, hexTextColor);
         break;
       case 'h4--mobile':
-        styleTextElement('h4Mobile', element, hexTextColor)
+        styleTextElement('h4Mobile', element, hexTextColor);
         break;
       case 'p':
-        styleTextElement('p', element, hexTextColor)
+        styleTextElement('p', element, hexTextColor);
         break;
       case 'a':
-        styleTextElement('a', element, hexTextColor)
+        styleTextElement('a', element, hexTextColor);
+        if (element.style.textDecoration) {
+          figmaObj.a.textDecoration = element.style.textDecoration.toLowerCase();
+        } else {
+          figmaObj.a.textDecoration = 'none';
+        }
+        break;
+        case 'a--hover':
+          if (element.style.textDecoration) {
+            figmaObj.aHover.textDecoration = element.style.textDecoration.toLowerCase();
+          } else {
+            figmaObj.aHover.textDecoration = 'none';
+          }
+
+          figmaObj.aHover.color = hexTextColor;
+        break;
+      case 'input--default':
+        figmaObj.input.background = hexColor;
+        figmaObj.input.border = border;
+        figmaObj.input.borderRadius = borderRadius;
+        break;
+      case 'input--focused':
+        figmaObj.inputFocus.background = hexColor;
+        figmaObj.inputFocus.border = border;
+        figmaObj.inputFocus.borderRadius = borderRadius;
         break;
       case 'primary--default':
-        figmaObj.buttonPrimary.background = hexColor;
-        figmaObj.buttonPrimary.color = hexTextColor;
-        if (element.children[0].cornerRadius) {
-          figmaObj.buttonPrimary.borderRadius = `${element.children[0].cornerRadius}px`;
-        } else {
-          figmaObj.buttonPrimary.borderRadius = '0px';
-        }
-        
+        styleButtonElement('buttonPrimary', hexColor, hexTextColor, border, borderRadius);
+        calcPadding('buttonPrimary', element.children[0].absoluteBoundingBox.height, element.children[1].style.fontSize);
         break;
       case 'primary--hover':
-        figmaObj.buttonPrimaryHover.background = hexColor;
-        figmaObj.buttonPrimaryHover.color = hexTextColor;
-        if (element.children[0].cornerRadius) {
-          figmaObj.buttonPrimaryHover.borderRadius = `${element.children[0].cornerRadius}px`;        
-        } else {
-          figmaObj.buttonPrimaryHover.borderRadius = '0px';
-        }
+        styleButtonElement('buttonPrimaryHover', hexColor, hexTextColor, border, borderRadius);
         break;
       case 'secondary--default':
-        figmaObj.buttonSecondary.background = hexColor;
-        figmaObj.buttonSecondary.color = hexTextColor;
-        if (element.children[0].cornerRadius) {
-          figmaObj.buttonSecondary.borderRadius = `${element.children[0].cornerRadius}px`;          
-        } else {
-          figmaObj.buttonSecondary.borderRadius = '0px';
-        }
+        styleButtonElement('buttonSecondary', hexColor, hexTextColor, border, borderRadius);
+        calcPadding('buttonSecondary', element.children[0].absoluteBoundingBox.height, element.children[1].style.fontSize);
         break;
       case 'secondary--hover':
-        figmaObj.buttonSecondaryHover.background = hexColor;
-        figmaObj.buttonSecondaryHover.color = hexTextColor;
-        if (element.children[0].cornerRadius) {
-          figmaObj.buttonSecondaryHover.borderRadius = `${element.children[0].cornerRadius}px`;        
-        } else {
-          figmaObj.buttonSecondaryHover.borderRadius = '0px';
-        }
+        styleButtonElement('buttonSecondaryHover', hexColor, hexTextColor, border, borderRadius);
         break;
       case 'small--default':
-        figmaObj.buttonSmall.background = hexColor;
-        figmaObj.buttonSmall.color = hexTextColor;
-        if (element.children[0].cornerRadius) {
-          figmaObj.buttonSmall.borderRadius = `${element.children[0].cornerRadius}px`;
-        } else {
-          figmaObj.buttonSmall.borderRadius = '0px';
-        }
+        styleButtonElement('buttonSmall', hexColor, hexTextColor, border, borderRadius);
+        calcPadding('buttonSmall', element.children[0].absoluteBoundingBox.height, element.children[1].style.fontSize);
         break;
       case 'small--hover':
-        figmaObj.buttonSmallHover.background = hexColor;
-        figmaObj.buttonSmallHover.color = hexTextColor;
-        if (element.children[0].cornerRadius) {
-          figmaObj.buttonSmallHover.borderRadius = `${element.children[0].cornerRadius}px`;
-        } else {
-          figmaObj.buttonSmallHover.borderRadius = '0px';
-        }
+        styleButtonElement('buttonSmallHover', hexColor, hexTextColor, border, borderRadius);
         break;
       case '$color-primary':
         figmaObj.colorPrimary.color = hexColor;
@@ -252,6 +295,7 @@ h1 {
   color: ${figmaObj.h1.color};
   font-size: ${figmaObj.h1Mobile.fontSize};
   font-family: ${figmaObj.h1.fontFamily};
+  font-weight: ${figmaObj.h1.fontWeight};
 
   @include breakpoint("medium") {// 801px and up
     font-size: ${figmaObj.h1.fontSize};
@@ -262,6 +306,7 @@ h2 {
   color: ${figmaObj.h2.color};
   font-size: ${figmaObj.h2Mobile.fontSize};
   font-family: ${figmaObj.h2.fontFamily};
+  font-weight: ${figmaObj.h2.fontWeight};
 
   @include breakpoint("medium") {// 801px and up
     font-size: ${figmaObj.h2.fontSize};
@@ -272,6 +317,7 @@ h3 {
   color: ${figmaObj.h3.color};
   font-size: ${figmaObj.h3Mobile.fontSize};
   font-family: ${figmaObj.h3.fontFamily};
+  font-weight: ${figmaObj.h3.fontWeight};
 
   @include breakpoint("medium") {// 801px and up
     font-size: ${figmaObj.h3.fontSize};
@@ -282,6 +328,7 @@ h4 {
   color: ${figmaObj.h4.color};
   font-size: ${figmaObj.h4Mobile.fontSize};
   font-family: ${figmaObj.h4.fontFamily};
+  font-weight: ${figmaObj.h4.fontWeight};
 
   @include breakpoint("medium") {// 801px and up
     font-size: ${figmaObj.h4.fontSize};
@@ -292,18 +339,41 @@ p {
   color: ${figmaObj.p.color};
   font-size: ${figmaObj.p.fontSize};
   font-family: ${figmaObj.p.fontFamily};
+  font-weight: ${figmaObj.p.fontWeight};
 }
 
 a {
   color: ${figmaObj.a.color};
   font-size: ${figmaObj.a.fontSize};
   font-family: ${figmaObj.a.fontFamily};
+  font-weight: ${figmaObj.a.fontWeight};
+  text-decoration: ${figmaObj.a.textDecoration};
+
+  &:hover,
+  &:active,
+  &:focus {
+    text-decoration: ${figmaObj.aHover.textDecoration};
+    color: ${figmaObj.aHover.color};
+  }
+}
+
+input {
+  background: ${figmaObj.input.background};
+  border: ${figmaObj.input.border};
+  border-radius: ${figmaObj.input.borderRadius};
+}
+
+input:focus {
+  background: ${figmaObj.inputFocus.background};
+  border: ${figmaObj.inputFocus.border};
+  border-radius: ${figmaObj.inputFocus.borderRadius};
 }
 
 .button--primary {
   background: ${figmaObj.buttonPrimary.background};
   border-radius: ${figmaObj.buttonPrimary.borderRadius};
-
+  border: ${figmaObj.buttonPrimary.border};
+  padding: ${figmaObj.buttonPrimary.padding};
 
   &:hover,
   &:active,
@@ -326,6 +396,7 @@ a {
 .button--secondary {
   background: ${figmaObj.buttonSecondary.background};
   border-radius: ${figmaObj.buttonSecondary.borderRadius};
+  border: ${figmaObj.buttonSecondary.border};
 
   &:hover,
   &:active,
@@ -348,6 +419,7 @@ a {
   background: ${figmaObj.buttonSmall.background};
   border-radius: ${figmaObj.buttonSmall.borderRadius};
   color: ${figmaObj.buttonSmall.color};
+  border: ${figmaObj.buttonSmall.border};
 
   &:hover,
   &:active,
