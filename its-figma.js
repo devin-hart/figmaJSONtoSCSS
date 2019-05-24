@@ -73,7 +73,7 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
   }
 
   let figmaObj = {
-    h1: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
+    h1: {color: 'all', fontSize: 'all', fontFamily: 'all', fontWeight: 'all'},
     h1Mobile: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
     h2: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
     h2Mobile: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
@@ -309,7 +309,18 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
 let figmaSCSS = `
 // Figma JSON to SCSS!
 
-${(figmaObj.h1.color.length > 0) ? `
+$color-primary: ${figmaObj.colorPrimary.color};
+$color-primary--hover: ${figmaObj.colorPrimaryHover.color};
+$color-primary--sub: ${figmaObj.colorPrimarySub.color};
+
+$color-secondary: ${figmaObj.colorSecondary.color};
+$color-secondary--hover: ${figmaObj.colorSecondaryHover.color};
+$color-secondary--sub: ${figmaObj.colorSecondarySub.color};
+
+$color-alt: ${figmaObj.colorAlt.color};
+$color-alt--hover: ${figmaObj.colorAltHover.color};
+$color-alt--sub: ${figmaObj.colorAltSub.color};
+
 h1 {
   color: ${figmaObj.h1.color};
   font-size: ${figmaObj.h1Mobile.fontSize};
@@ -320,9 +331,8 @@ h1 {
     font-size: ${figmaObj.h1.fontSize};
   }
 }
-` : ''}
 
-${(figmaObj.h2.color.length > 0) ? `
+
 h2 {
   color: ${figmaObj.h2.color};
   font-size: ${figmaObj.h2Mobile.fontSize};
@@ -333,9 +343,7 @@ h2 {
     font-size: ${figmaObj.h2.fontSize};
   }
 }
-` : ''}
 
-${(figmaObj.h3.color.length > 0) ? `
 h3 {
   color: ${figmaObj.h3.color};
   font-size: ${figmaObj.h3Mobile.fontSize};
@@ -346,7 +354,6 @@ h3 {
     font-size: ${figmaObj.h3.fontSize};
   }
 }
-` : ''}
 
 
 h4 {
@@ -399,6 +406,7 @@ a {
   border-radius: ${figmaObj.buttonPrimary.borderRadius};
   border: ${figmaObj.buttonPrimary.border};
   padding: ${figmaObj.buttonPrimary.padding};
+  color: ${figmaObj.buttonPrimary.color};
 
   &:hover,
   &:active,
@@ -422,11 +430,13 @@ a {
   background: ${figmaObj.buttonSecondary.background};
   border-radius: ${figmaObj.buttonSecondary.borderRadius};
   border: ${figmaObj.buttonSecondary.border};
+  color: ${figmaObj.buttonSecondary.color};
 
   &:hover,
   &:active,
   &:focus {
     background: ${figmaObj.buttonSecondaryHover.background};
+    color: ${figmaObj.buttonSecondaryHover.color};
   }
 }
 
@@ -459,23 +469,11 @@ a {
   height: ${figmaObj.icon.height};
   width: ${figmaObj.icon.width};
 }
-
-$color-primary: ${figmaObj.colorPrimary.color};
-$color-primary--hover: ${figmaObj.colorPrimaryHover.color};
-$color-primary--sub: ${figmaObj.colorPrimarySub.color};
-
-$color-secondary: ${figmaObj.colorSecondary.color};
-$color-secondary--hover: ${figmaObj.colorSecondaryHover.color};
-$color-secondary--sub: ${figmaObj.colorSecondarySub.color};
-
-$color-alt: ${figmaObj.colorAlt.color};
-$color-alt--hover: ${figmaObj.colorAltHover.color};
-$color-alt--sub: ${figmaObj.colorAltSub.color};
 `.trim();
 
 // Write new file to current directory
 
-  fs.writeFile('figmaJSON.scss', figmaSCSS, function (err) {
+  fs.writeFile('C:/Users/12-5/Downloads/cornerstone-its/assets/scss/custom/figmaSCSS.scss', figmaSCSS, function (err) {
     if (err) throw err;
     console.log(`
 ███████╗██╗██╗     ███████╗

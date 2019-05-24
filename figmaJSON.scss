@@ -1,79 +1,95 @@
 // Figma JSON to SCSS!
+h1 {
+  color: all;
+  font-size: 36px;
+  font-family: all;
+  font-weight: all;
 
-undefined
+  @include breakpoint("medium") {// 801px and up
+    font-size: all;
+  }
+}
 
 
+h2 {
+  color: #ff0000;
+  font-size: 24px;
+  font-family: "Roboto";
+  font-weight: 500;
 
+  @include breakpoint("medium") {// 801px and up
+    font-size: 36px;
+  }
+}
 
 h3 {
-  color: #ffffff;
-  font-size: ;
+  color: #000000;
+  font-size: 18px;
   font-family: "Roboto";
-  font-weight: 700;
+  font-weight: 400;
+
+  @include breakpoint("medium") {// 801px and up
+    font-size: 24px;
+  }
+}
+
+
+h4 {
+  color: #000000;
+  font-size: 14px;
+  font-family: "Roboto";
+  font-weight: 300;
 
   @include breakpoint("medium") {// 801px and up
     font-size: 18px;
   }
 }
 
-
-
-h4 {
-  color: ;
-  font-size: ;
-  font-family: ;
-  font-weight: ;
-
-  @include breakpoint("medium") {// 801px and up
-    font-size: ;
-  }
-}
-
 p {
-  color: #0066ff;
+  color: #000000;
   font-size: 12px;
   font-family: "Roboto";
-  font-weight: 700;
+  font-weight: 400;
 }
 
 a {
-  color: ;
-  font-size: ;
-  font-family: ;
-  font-weight: ;
-  text-decoration: ;
+  color: #1400ff;
+  font-size: 12px;
+  font-family: "Roboto";
+  font-weight: 400;
+  text-decoration: none;
 
   &:hover,
   &:active,
   &:focus {
-    text-decoration: ;
-    color: ;
+    text-decoration: underline;
+    color: #ff008a;
   }
 }
 
 .form-input {
-  background: ;
-  border: ;
-  border-radius: undefined;
+  background: #f7f7f7;
+  border: 1px solid #c4c4c4;
+  border-radius: 3px;
 }
 
 .form-input:focus {
-  background: ;
-  border: ;
-  border-radius: undefined;
+  background: none;
+  border: 1px solid #6f6f6f;
+  border-radius: 3px;
 }
 
 .button.button--primary {
-  background: #94141c;
-  border-radius: 0px;
+  background: #3465fa;
+  border-radius: 12px;
   border: none;
   padding: 15px;
 
   &:hover,
   &:active,
   &:focus {
-    background: ;
-    color: ;
+    background: #3465fa;
+    color: #ffffff;
   }
 }
 
@@ -83,60 +99,60 @@ a {
   &:hover,
   &:active,
   &:focus {
-    color: ;
+    color: #ffffff;
   }
 }
 
 .button.button--secondary {
-  background: ;
-  border-radius: ;
-  border: ;
+  background: none;
+  border-radius: 0px;
+  border: 1px solid #3465fa;
 
   &:hover,
   &:active,
   &:focus {
-    background: ;
+    background: none;
   }
 }
 
 .button.button--secondary a {
-  color: ;
+  color: #3465fa;
   
   &:hover,
   &:active,
   &:focus {
-    color: ;
+    color: #3465fa;
   }
 }
 
 .button.button--small {
-  background: ;
-  border-radius: ;
-  color: ;
-  border: ;
+  background: #3465fa;
+  border-radius: 0px;
+  color: #ffffff;
+  border: none;
 
   &:hover,
   &:active,
   &:focus {
-    background: ;
-    color: ;
+    background: #3465fa;
+    color: #ffffff;
   }
 }
 
 .icon svg {
-  fill: #ffffff;
-  height: 14.086956024169922px;
-  width: 14.086956024169922px;
+  fill: #000000;
+  height: 16px;
+  width: 18px;
 }
 
-$color-primary: ;
-$color-primary--hover: ;
-$color-primary--sub: ;
+$color-primary: #3465fa;
+$color-primary--hover: #83a1fb;
+$color-primary--sub: #052894;
 
-$color-secondary: ;
-$color-secondary--hover: ;
-$color-secondary--sub: ;
+$color-secondary: #002fc6;
+$color-secondary--hover: #6980c9;
+$color-secondary--sub: #021550;
 
-$color-alt: ;
-$color-alt--hover: ;
-$color-alt--sub: ;
+$color-alt: #6ad5ba;
+$color-alt--hover: #aff5e3;
+$color-alt--sub: #23725e;
