@@ -1,5 +1,6 @@
 const Figma = require('figma-js');
 const fs = require('fs');
+const prependFile = require('prepend-file');
 
 require('dotenv').config();
 
@@ -74,25 +75,25 @@ client.file(process.env.TEST_FIGMA).then(({ data }) => {
 
   let figmaObj = {
     h1: {color: 'all', fontSize: 'all', fontFamily: 'all', fontWeight: 'all'},
-    h1Mobile: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
-    h2: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
-    h2Mobile: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
-    h3: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
-    h3Mobile: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
-    h4: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
-    h4Mobile: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
-    p: {color: '', fontSize: '', fontFamily: '', fontWeight: ''},
-    a: {color: '', fontSize: '', fontFamily: '', fontWeight: '', textDecoration: ''},
-    aHover: {color: '', textDecoration: ''},
-    input: {background: '', border: ''},
-    inputFocus: {background: '', border: ''},
-    buttonPrimary: {background: '', borderRadius: '', color: '', border: '', padding: ''},
-    buttonPrimaryHover: {background: '', borderRadius: '', color: ''},
-    buttonSecondary: {background: '', borderRadius: '', color: '', border: '', padding: ''},
-    buttonSecondaryHover: {background: '', borderRadius: '', color: ''},
-    buttonSmall: {background: '', borderRadius: '', color: '', border: '', padding: ''},
-    buttonSmallHover: {background: '', borderRadius: '', color: ''},
-    icon: {fill: '', height: '', width: ''},
+    h1Mobile: {color: 'all', fontSize: 'all', fontFamily: 'all', fontWeight: 'all'},
+    h2: {color: 'all', fontSize: 'all', fontFamily: 'all', fontWeight: 'all'},
+    h2Mobile: {color: 'all', fontSize: 'all', fontFamily: 'all', fontWeight: 'all'},
+    h3: {color: 'all', fontSize: 'all', fontFamily: 'all', fontWeight: 'all'},
+    h3Mobile: {color: 'all', fontSize: 'all', fontFamily: 'all', fontWeight: 'all'},
+    h4: {color: 'all', fontSize: 'all', fontFamily: 'all', fontWeight: 'all'},
+    h4Mobile: {color: 'all', fontSize: 'all', fontFamily: 'all', fontWeight: 'all'},
+    p: {color: 'all', fontSize: 'all', fontFamily: 'all', fontWeight: 'all'},
+    a: {color: 'all', fontSize: 'all', fontFamily: 'all', fontWeight: 'all', textDecoration: 'all'},
+    aHover: {color: 'all', textDecoration: 'all'},
+    input: {background: 'all', border: 'all'},
+    inputFocus: {background: 'all', border: 'all'},
+    buttonPrimary: {background: 'all', borderRadius: 'all', color: 'all', border: 'all', padding: 'all'},
+    buttonPrimaryHover: {background: 'all', borderRadius: 'all', color: 'all'},
+    buttonSecondary: {background: 'all', borderRadius: 'all', color: 'all', border: 'all', padding: 'all'},
+    buttonSecondaryHover: {background: 'all', borderRadius: 'all', color: 'all'},
+    buttonSmall: {background: 'all', borderRadius: 'all', color: 'all', border: 'all', padding: 'all'},
+    buttonSmallHover: {background: 'all', borderRadius: 'all', color: 'all'},
+    icon: {fill: 'all', height: 'all', width: 'all'},
     colorPrimary: {color: ''},
     colorPrimaryHover: {color: ''},
     colorPrimarySub: {color: ''},
@@ -497,4 +498,11 @@ a {
 }).catch(err => {
   process.exit();
   throw err;
+});
+
+prependFile('C:/Users/12-5/Downloads/cornerstone-its/assets/scss/custom/_kitchen-sink.scss', "@import 'figmaSCSS.scss';\n", function (err) {
+  if (err) {
+      console.error(err);
+  }
+  console.log('Imported styles to Kitchen Sink.');
 });
